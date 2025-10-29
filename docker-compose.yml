@@ -1,0 +1,46 @@
+version: "3.1"
+
+services:
+  mysql-db:
+    image: mysql
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    command: --init-file /data/application/init.sql
+    volumes:
+      - coding-exam:/var/lib/mysql
+      - ./init.sql:/data/application/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 3s
+      timeout: 30s
+      retries: 10
+
+  back-end:
+    build: ./back-end
+    ports:
+      - 3000:3000
+    environment:
+      DB_HOST: mysql-db
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: coding_exam
+      DB_PORT: 3306
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql-db
+
+volumes:
+  cache:
+    driver: local
+  coding-exam:
