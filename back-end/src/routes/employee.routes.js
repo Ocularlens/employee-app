@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const {
   getAllEmployees,
-  // getEmployeeById,
+  getEmployeeById,
   createEmployee,
   updateEmployee,
   deleteEmployee,
@@ -10,7 +10,7 @@ const {
 const router = Router();
 
 router.post('/getEmployees', getAllEmployees);
-// router.post('/employees/:id', getEmployeeById);
+router.post('/employees/:id', getEmployeeById);
 router.post('/employees', createEmployee);
 router.put('/employees/:id', updateEmployee);
 router.delete('/employees/:id', deleteEmployee);

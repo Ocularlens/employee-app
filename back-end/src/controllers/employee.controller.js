@@ -1,32 +1,65 @@
+const { EmployeeModel } = require('../models');
+const { SUCCESS } = require('../config/defaults.config');
 
 const getAllEmployees = async (req, res) => {
   // Logic to get all employees
-  res.send('Get all employees');
+  try {
+    const data = await EmployeeModel.findAll()
+
+    return res.status(200).json({
+      ...SUCCESS,
+      employees: data
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 const getEmployeeById = async (req, res) => {
-  const { id } = req.params;
-  // Logic to get an employee by ID
-  res.send(`Get employee with ID: ${id}`);
+  try {
+    const { id } = req.params;
+    const data = await EmployeeModel.findByPk(id)
+    res.status(200).json({
+      ...SUCCESS,
+      employee: data
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 const createEmployee = async (req, res) => {
-  const employeeData = req.body;
-  // Logic to create a new employee
-  res.send('Create a new employee');
+  try {
+    const employeeData = req.body;
+    await EmployeeModel.create(employeeData)
+
+    return res.status(201).json(SUCCESS);
+  } catch (error) {
+    throw error;
+  }
 };
 
 const updateEmployee = async (req, res) => {
-  const { id } = req.params;
-  const updatedData = req.body;
-  // Logic to update an existing employee
-  res.send(`Update employee with ID: ${id}`);
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    await EmployeeModel.update(updatedData, { where: { id } });
+
+    res.status(200).json(SUCCESS);
+  } catch (error) {
+    throw error;
+  }
 };
 
 const deleteEmployee = async (req, res) => {
-  const { id } = req.params;
-  // Logic to delete an employee
-  res.send(`Delete employee with ID: ${id}`);
+  try {
+    const { id } = req.params;
+    await EmployeeModel.destroy({ where: { id } });
+
+    res.status(200).json(SUCCESS);
+  } catch (error) {
+    throw error;
+  }
 };
 
 module.exports = {
