@@ -40,6 +40,10 @@ services:
     depends_on:
       - mysql-db
 
+  front-end:
+    build: ./front-end
+    ports:
+      - 9090:9090
 volumes:
   cache:
     driver: local

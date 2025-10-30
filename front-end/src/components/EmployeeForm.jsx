@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 import ErrorMessage from "./ErrorMessage";
 
 const COUNTRIES = ['PHILIPPINES', 'USA', 'JAPAN']
@@ -102,6 +102,7 @@ export default function EmployeeForm() {
             />
             {photoError && <ErrorMessage text={photoError.message} />}
         </Form.Group>
+        <br />
         <Form.Control className="btn btn-success" type="submit" />
     </Form>
 }
