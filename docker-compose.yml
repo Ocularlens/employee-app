@@ -53,6 +53,4 @@ services:
     environment:
       - VITE_API_URL=${VITE_API_URL}
 volumes:
-  cache:
-    driver: local
   coding-exam:
