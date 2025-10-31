@@ -4,3 +4,4 @@
 1. Docker
 
 ### To run locally execute ```docker compose up``` and then go to ```http://localhost:9090/login```
+### To login use username:```admin``` and password ```password```
