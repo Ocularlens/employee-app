@@ -1,5 +1,6 @@
 const { EmployeeModel } = require('../models');
 const { SUCCESS } = require('../config/defaults.config');
+const { Op } = require('sequelize');
 
 const getAllEmployees = async (req, res) => {
   try {
@@ -16,13 +17,19 @@ const getAllEmployees = async (req, res) => {
 
     const employeeCount = await EmployeeModel.findAndCountAll({
       where: searchKeyword ? {
-        firstname: { $like: `%${searchKeyword}%` }
+        firstname: { [Op.like]: `%${searchKeyword}%` },
+        lastname: { [Op.like]: `%${searchKeyword}%` },
+        username: { [Op.like]: `%${searchKeyword}%` },
+        email: { [Op.like]: `%${searchKeyword}%` }
       } : {}
     });
 
     const data = await EmployeeModel.findAll({
       where: searchKeyword ? {
-        firstname: { $like: `%${searchKeyword}%` }
+        firstname: { [Op.like]: `%${searchKeyword}%` },
+        lastname: { [Op.like]: `%${searchKeyword}%` },
+        username: { [Op.like]: `%${searchKeyword}%` },
+        email: { [Op.like]: `%${searchKeyword}%` }
       } : {},
       limit: size,
       offset: (page - 1) * size,

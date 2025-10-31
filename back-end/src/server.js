@@ -1,5 +1,5 @@
 const express = require('express');
-const employeeRoutes = require('./routes/employee.routes');
+const router = require('./routes');
 const { ERROR } = require('./config/defaults.config');
 const { database } = require('./models');
 
@@ -7,11 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(employeeRoutes);
+app.use(router);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json(ERROR);
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not Found' });
 });
 
 app.listen(PORT, async () => {
