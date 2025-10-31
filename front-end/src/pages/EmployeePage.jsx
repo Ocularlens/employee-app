@@ -8,6 +8,7 @@ export default function EmployeePage() {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState();
   const [page, setPage] = useState(1);
+  const [deleted, setDeleted] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -15,7 +16,7 @@ export default function EmployeePage() {
       setEmployees(data.employees);
     };
     fetchEmployees();
-  }, []);
+  }, [deleted]);
 
   return (
     <div>
@@ -27,8 +28,8 @@ export default function EmployeePage() {
         Add Employee
       </Button>
       <br />
-      <div className="form-container">
-        <EmployeeTable employees={employees} />
+      <div>
+        <EmployeeTable employees={employees} setDeleted={setDeleted}/>
         <div>
           <Button>Prev</Button>
           <Button>Next</Button>

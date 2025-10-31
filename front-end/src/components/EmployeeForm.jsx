@@ -1,37 +1,56 @@
+import { useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { createEmployee } from "../api/employee";
+import { createEmployee, updateEmployeeById } from "../api/employee";
 import ErrorMessage from "./ErrorMessage";
 
 const COUNTRIES = ["PHILIPPINES", "USA", "JAPAN"];
 const ACCOUNT_TYPES = ["ADMIN", "REPORTER", "VIEWER"];
 
-export default function EmployeeForm() {
+export default function EmployeeForm({ employee }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (employee) {
+      setValue("country", employee.country);
+      setValue("accountType", employee.accountType);
+      setValue("username", employee.username);
+      setValue("firstname", employee.firstname);
+      setValue("lastname", employee.lastname);
+      setValue("email", employee.email);
+      setValue("phonenumber", employee.phonenumber);
+    }
+  }, [employee, setValue]);
+
   const onSubmit = async (data) => {
     const { photo } = data;
-    let photoBase64String;
+    const formData = new FormData();
+    formData.append("country", data.country);
+    formData.append("accountType", data.accountType);
+    formData.append("username", data.username);
+    formData.append("firstname", data.firstname);
+    formData.append("lastname", data.lastname);
+    formData.append("email", data.email);
+    formData.append("phonenumber", data.phonenumber);
 
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const base64String = reader.result.split(",")[1]; // remove "data:image/...;base64,"
-      photoBase64String = base64String;
-      console.log("Base64:", base64String);
+    if (photo && photo.length > 0) {
+      formData.append("photo", photo[0]);
+    }
 
-      await createEmployee({ ...data, photo: photoBase64String });
-
-      return navigate("/dashboard");
-    };
-
-    reader.readAsDataURL(photo[0]);
+    if (employee) {
+      await updateEmployeeById(employee.id, formData);
+    } else {
+      await createEmployee(formData);
+    }
+    navigate("/dashboard");
   };
 
   const {
@@ -119,7 +138,9 @@ export default function EmployeeForm() {
       <Form.Group>
         <Form.Label>Photo</Form.Label>
         <Form.Control
-          {...register("photo", { required: "Photo is required" })}
+          {...register("photo", {
+            required: !employee ? "Photo is required" : false,
+          })}
           type="file"
           isInvalid={photoError}
         />

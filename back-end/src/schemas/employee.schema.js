@@ -8,7 +8,6 @@ const employeeSchema = joi.object({
   accountType: joi.string().valid('ADMIN', 'REPORTER', 'VIEWER').required(),
   username: joi.string().alphanum().min(3).max(30).required(),
   phonenumber: joi.string().pattern(/^[0-9+\-() ]+$/).required(),
-  photo: joi.string().required()
 });
 
 const employeeUpdateSchema = joi.object({
@@ -19,7 +18,6 @@ const employeeUpdateSchema = joi.object({
   accountType: joi.string().valid('ADMIN', 'REPORTER', 'VIEWER'),
   username: joi.string().alphanum().min(3).max(30),
   phonenumber: joi.string().pattern(/^[0-9+\-() ]+$/),
-  photo: joi.string()
 });
 
 const employeeSearchSchema = joi.object({

@@ -66,6 +66,8 @@ const getEmployeeById = async (req, res) => {
 const createEmployee = async (req, res) => {
   try {
     const employeeData = req.body;
+  
+    employeeData.photo = req.file ? req.file.filename : null;
 
     const isExisting = await employeeChecker(employeeData.email, employeeData.username);
 
@@ -99,6 +101,8 @@ const updateEmployee = async (req, res) => {
         message: 'Employee already exists.'
       });
     }
+
+    updatedData.photo = req.file ? req.file.filename : null;
 
     await EmployeeModel.update(updatedData, { where: { id } });
 
