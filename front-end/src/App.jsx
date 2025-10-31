@@ -5,6 +5,7 @@ import CreateEmployeePage from "./pages/CreateEmployeePage";
 import DashboardPage from "./pages/DashboardPage";
 import EmployeePage from "./pages/EmployeePage";
 import LoginPage from "./pages/LoginPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import UpdateEmployeePage from "./pages/UpdateEmployeePage";
 
 function App() {
@@ -33,6 +34,10 @@ function App() {
       ],
     },
     { path: "/login", Component: LoginPage },
+    {
+      path: "*",
+      Component: NotFoundPage,
+    },
   ]);
 
   return <RouterProvider router={router} />;
