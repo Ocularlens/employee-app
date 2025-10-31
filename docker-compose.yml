@@ -46,6 +46,10 @@ services:
     build: ./front-end
     ports:
       - 9090:9090
+    env_file:
+      - ./front-end/.env
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
 volumes:
   cache:
     driver: local

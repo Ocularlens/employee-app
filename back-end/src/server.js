@@ -2,11 +2,21 @@ const express = require('express');
 const router = require('./routes');
 const { ERROR } = require('./config/defaults.config');
 const { database } = require('./models');
+const cors = require('cors');
+
+const corsOptions = {
+  origin: 'http://localhost:9090',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(cors(corsOptions));
+
+app.use(express.json({ limit: '50mb' }));
 app.use(router);
 
 app.use((err, req, res, next) => {

@@ -1,38 +1,39 @@
-import { useLoaderData, useNavigate } from "react-router"
-import { Button, Table } from "react-bootstrap"
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { getEmployees } from "../api/employee";
+import EmployeeTable from "../components/EmployeeTable";
 
 export default function EmployeePage() {
-    const { records } = useLoaderData();
-    const navigate = useNavigate();
-    const [employees, setEmployees] = useState();
+  const navigate = useNavigate();
+  const [employees, setEmployees] = useState();
+  const [page, setPage] = useState(1);
 
-    useEffect(() => {
-        console.log(records)
-        if (records) setEmployees(records);
-    }, [records])
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const data = await getEmployees({});
+      setEmployees(data.employees);
+    };
+    fetchEmployees();
+  }, []);
 
-    return <div>
-        <Button
-            onClick={() => {
-                navigate('create')
-            }}
-        >Twa</Button>
-        <Table striped bordered hover>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fullname</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                {employees && employees.map((record, i) => <tr key={i}>
-                    <td>{record.id}</td>
-                    <td>{record.fullName}</td>
-                    <td>{record.type}</td>
-                </tr>)}
-            </tbody>
-        </Table>
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          navigate("create");
+        }}
+      >
+        Add Employee
+      </Button>
+      <br />
+      <div className="form-container">
+        <EmployeeTable employees={employees} />
+        <div>
+          <Button>Prev</Button>
+          <Button>Next</Button>
+        </div>
+      </div>
     </div>
+  );
 }
