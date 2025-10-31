@@ -24,17 +24,22 @@ const EmployeeModel = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    photoLink: {
+    photo: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    firstName: {
+    firstname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    lastName: {
+    lastname: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   }, {
     tableName: 'employees',
