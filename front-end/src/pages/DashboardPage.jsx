@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Breadcrumb } from "react-bootstrap";
+import { Breadcrumb, Button } from "react-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../context/AuthContext";
 
@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const isDashboardActive = !pageText;
 
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { token, handleLogout } = useAuth();
 
   useEffect(() => {
     if (!token) {
@@ -29,16 +29,28 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-container">
       <div className="breadcrumb-container">
-        <Breadcrumb>
-          <Breadcrumb.Item
-            linkAs={Link}
-            linkProps={{ to: "/dashboard" }}
-            active={isDashboardActive}
+        <div>
+          <Breadcrumb>
+            <Breadcrumb.Item
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+              active={isDashboardActive}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            {pageText && <Breadcrumb.Item active>{pageText}</Breadcrumb.Item>}
+          </Breadcrumb>
+        </div>
+        <div>
+          <Button
+            onClick={() => {
+              handleLogout();
+              navigate("/login");
+            }}
           >
-            Dashboard
-          </Breadcrumb.Item>
-          {pageText && <Breadcrumb.Item active>{pageText}</Breadcrumb.Item>}
-        </Breadcrumb>
+            Logout
+          </Button>
+        </div>
       </div>
       <hr />
       <Outlet />

@@ -25,6 +25,7 @@ const employeeSearchSchema = joi.object({
   size: joi.number().integer().min(1).max(100).default(10),
   page: joi.number().integer().min(1).default(1),
   order: joi.string().valid('asc', 'desc').default('asc'),
+  field: joi.string().valid('id', 'firstname', 'lastname', 'username', 'email', 'accountType', 'country').default('id'),
 })
 
 module.exports = { employeeSchema, employeeUpdateSchema, employeeSearchSchema };
